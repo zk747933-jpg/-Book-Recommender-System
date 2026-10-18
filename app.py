@@ -2,6 +2,24 @@ import streamlit as st
 import pickle
 import numpy as np
 import os
+import sys
+import types
+import pandas as pd
+
+# ---------------------------------------------------------------
+# Compatibility shim: old pickles (pandas 1.x) refer to
+# pandas.core.indexes.numeric, which doesn't exist in pandas 2.x/3.x
+# ---------------------------------------------------------------
+if "pandas.core.indexes.numeric" not in sys.modules:
+    try:
+        import pandas.core.indexes.numeric  # noqa: F401
+    except ModuleNotFoundError:
+        shim = types.ModuleType("pandas.core.indexes.numeric")
+        shim.Int64Index = pd.Index
+        shim.UInt64Index = pd.Index
+        shim.Float64Index = pd.Index
+        shim.NumericIndex = pd.Index
+        sys.modules["pandas.core.indexes.numeric"] = shim
 
 # Page config
 st.set_page_config(
