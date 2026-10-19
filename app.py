@@ -122,7 +122,7 @@ if st.button("Recommend"):
 
         results = recommend(selected_book)
 
-        st.subheader("📖 Recommended Books")
+        st.subheader("📖 Top 5 Recommended Books")
 
         if len(results) == 0:
             st.warning("No recommendations found.")
